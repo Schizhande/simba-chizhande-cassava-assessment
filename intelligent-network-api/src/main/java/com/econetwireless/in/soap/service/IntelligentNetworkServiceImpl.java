@@ -16,7 +16,6 @@ import javax.xml.ws.soap.SOAPBinding;
 /**
  * Created by tnyamakura on 17/3/2017.
  */
-@BindingType(value = SOAPBinding.SOAP12HTTP_BINDING)
 @WebService(endpointInterface = "com.econetwireless.in.soap.service.IntelligentNetworkService",
         serviceName = "IntelligentNetworkServiceImpl", portName = "IntelligentNetworkPort", name = "IntelligentNetworkService")
 public class IntelligentNetworkServiceImpl implements IntelligentNetworkService{
