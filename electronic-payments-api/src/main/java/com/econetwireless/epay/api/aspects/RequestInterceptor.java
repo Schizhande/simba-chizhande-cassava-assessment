@@ -30,7 +30,7 @@ public class RequestInterceptor {
     @Autowired
     private PartnerCodeValidator partnerCodeValidator;
 
-    @Around("execution(* com.econetwireless.epay.api.rest.resources.EpayResource.getPartnerTransactions(..)) and args(partnerCode)")
+    @Around("execution(* com.econetwireless.epay.api.rest.resources.EpayResource.getPartnerTransactions(..)) && args(partnerCode)")
     public TransactionsResponse getPartnerTransactions(final ProceedingJoinPoint joinPoint, final String partnerCode) {
         TransactionsResponse transactionsResponse = new TransactionsResponse();
         try {
@@ -60,7 +60,7 @@ public class RequestInterceptor {
     }
 
 
-    @Around("execution(* com.econetwireless.epay.api.rest.resources.EpayResource.enquireAirtimeBalance(..)) and args(partnerCode, msisdn)")
+    @Around("execution(* com.econetwireless.epay.api.rest.resources.EpayResource.enquireAirtimeBalance(..)) && args(partnerCode, msisdn)")
     public AirtimeBalanceResponse enquireAirtimeBalance(final ProceedingJoinPoint joinPoint, final String partnerCode, final String msisdn) {
         AirtimeBalanceResponse airtimeBalanceResponse = new AirtimeBalanceResponse();
         try {
@@ -89,7 +89,7 @@ public class RequestInterceptor {
         return  airtimeBalanceResponse;
     }
 
-    @Around("execution(* com.econetwireless.epay.api.rest.resources.EpayResource.creditAirtime(..)) and args(airtimeTopupRequest)")
+    @Around("execution(* com.econetwireless.epay.api.rest.resources.EpayResource.creditAirtime(..)) && args(airtimeTopupRequest)")
     public AirtimeTopupResponse creditAirtime(final ProceedingJoinPoint joinPoint, final AirtimeTopupRequest airtimeTopupRequest) {
         AirtimeTopupResponse airtimeTopupResponse = new AirtimeTopupResponse();
         try {
