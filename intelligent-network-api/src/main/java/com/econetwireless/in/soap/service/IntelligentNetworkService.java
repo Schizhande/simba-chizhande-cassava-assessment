@@ -14,7 +14,7 @@ import javax.jws.soap.SOAPBinding;
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
 public interface IntelligentNetworkService {
-    BalanceResponse enquireBalance(String partnerCode, @WebParam(name = "msisdn") String msisdn);
+    BalanceResponse enquireBalance(@WebParam(name = "partnerCode") String partnerCode, @WebParam(name = "msisdn") String msisdn);
     CreditResponse creditSubscriberAccount(@WebParam(name = "creditRequest") CreditRequest creditRequest);
 
 }
