@@ -56,5 +56,28 @@ public final class CallBacksUtils {
         return null;
     };
 
-
+    public final static Answer<INBalanceResponse> SUCCESSFUL_BALANCE_ANSWER = invocation -> {
+        Object[] arguments = invocation.getArguments();
+        if (!isNull(arguments) && arguments.length == 2) {
+            String partnerCode = (String) arguments[0];
+            String msisdn = (String) arguments[1];
+            INBalanceResponse balanceResponse = new INBalanceResponse();
+            if (partnerCode == null || partnerCode.trim().isEmpty()) {
+                balanceResponse.setNarrative("Invalid request, missing partner code");
+                balanceResponse.setResponseCode(ResponseCode.INVALID_REQUEST.getCode());
+                return balanceResponse;
+            }
+            if (msisdn == null || msisdn.trim().isEmpty()) {
+                balanceResponse.setNarrative("Invalid request, missing mobile number");
+                balanceResponse.setResponseCode(ResponseCode.INVALID_REQUEST.getCode());
+                return balanceResponse;
+            }
+            balanceResponse.setAmount(BALANCE);
+            balanceResponse.setMsisdn(msisdn);
+            balanceResponse.setResponseCode(ResponseCode.SUCCESS.getCode());
+            balanceResponse.setNarrative("Successful balance enquiry");
+            return balanceResponse;
+        }
+        return null;
+    };
 }
