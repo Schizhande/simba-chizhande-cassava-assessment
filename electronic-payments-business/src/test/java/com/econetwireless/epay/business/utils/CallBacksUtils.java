@@ -5,11 +5,10 @@ import com.econetwireless.utils.enums.ResponseCode;
 import com.econetwireless.utils.pojo.INBalanceResponse;
 import com.econetwireless.utils.pojo.INCreditRequest;
 import com.econetwireless.utils.pojo.INCreditResponse;
-import org.apache.commons.lang3.StringUtils;
 import org.mockito.stubbing.Answer;
 
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.BooleanUtils.negate;
@@ -79,5 +78,33 @@ public final class CallBacksUtils {
             return balanceResponse;
         }
         return null;
+    };
+
+    public static final Answer<List<SubscriberRequest>> SUCCESSFUL_REQUEST_ANSWER = invocationOnMock -> {
+        Object[] arguments = invocationOnMock.getArguments();
+        if (negate(isNull(arguments)) && arguments.length > 0) {
+            List<SubscriberRequest> subscriberRequests = new ArrayList<>();
+            String partnerCode = (String) arguments[0];
+            if (partnerCode != null) {
+                List<String> partners = Arrays.asList("hot-recharge", "paynow");
+                return partners.stream()
+                        .map(partner -> {
+                            SubscriberRequest request = new SubscriberRequest();
+                            request.setPartnerCode(partner);
+                            request.setDateLastUpdated(new Date());
+                            request.setDateCreated(new Date());
+                            request.setId(new Random().nextLong());
+                            int msisdn = 770_000_000 + new Random().nextInt(789_999_999);
+                            request.setMsisdn(String.valueOf(msisdn));
+                            request.setBalanceAfter(10);
+                            request.setBalanceBefore(5);
+                            request.setAmount(5);
+                            return request;
+                        }).collect(Collectors.toList());
+            }
+            return subscriberRequests;
+        } else {
+            return null;
+        }
     };
 }
