@@ -57,4 +57,15 @@ public class EnquiriesServiceImplTest {
 
     }
 
+    @Test
+    public void testBalanceEnquiryWithEmptyPartnerCodeAndMsisdnProvided() {
+        AirtimeBalanceResponse response =  enquiriesService.enquire("", "");
+        assertNotNull(response);
+        assertEquals(ResponseCode.INVALID_REQUEST.getCode(), response.getResponseCode());
+
+        verify(chargingPlatform).enquireBalance("","");
+        verify(subscriberRequestDao, atMost(2)).save(any(SubscriberRequest.class));
+
+    }
+
 }
