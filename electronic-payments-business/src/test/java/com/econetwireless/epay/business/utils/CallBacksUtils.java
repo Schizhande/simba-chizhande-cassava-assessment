@@ -1,5 +1,6 @@
 package com.econetwireless.epay.business.utils;
 
+import com.econetwireless.epay.domain.RequestPartner;
 import com.econetwireless.epay.domain.SubscriberRequest;
 import com.econetwireless.utils.enums.ResponseCode;
 import com.econetwireless.utils.pojo.INBalanceResponse;
@@ -106,5 +107,22 @@ public final class CallBacksUtils {
         } else {
             return null;
         }
+    };
+
+    public static final Answer<RequestPartner> REQUEST_PARTNER_ANSWER = invocationOnMock -> {
+        Object[] arguments = invocationOnMock.getArguments();
+        if (!isNull(arguments) && arguments.length > 0) {
+            String partnerCode = (String) arguments[0];
+            if (partnerCode != null) {
+                RequestPartner partner = new RequestPartner();
+                partner.setId(1L);
+                partner.setCode(partnerCode);
+                partner.setDescription("This is a test request partner");
+                partner.setName("Test Name");
+                return partner;
+            }
+            return null;
+        }
+        return null;
     };
 }
